@@ -22,6 +22,16 @@ PKG_CHECK_MODULES(LIBHID, hidapi-libusb >= 0.8.0)
 AC_SUBST(LIBHID_CFLAGS)
 AC_SUBST(LIBHID_LIBS)
 
+# check for protobuf
+PKG_CHECK_MODULES(PROTOBUF, protobuf >= 2.4.0)
+AC_SUBST(PROTOBUF_LIBS)
+AC_SUBST(PROTOBUF_CFLAGS)
+AC_SUBST(PROTOBUF_VERSION)
+
+AC_CHECK_PROG([PROTOC], [protoc], [protoc])
+AS_IF([test "x${PROTOC}" == "x"],
+       [AC_MSG_ERROR([ProtoBuf compiler "protoc" not found.])])
+
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.

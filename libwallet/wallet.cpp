@@ -18,8 +18,12 @@
 
 #include "wallet.h"
 #include "common/utils.h"
+#include "trezor/trezordecive.h"
 
 class wallet::walletDev *wallet::walletDev::getDevice(const std::string &devType) {
+    if (devType == "TREZOR" || devType == "KEEPKEY")
+        return new trezorDecive();
+
     return NULL;
 }
 
