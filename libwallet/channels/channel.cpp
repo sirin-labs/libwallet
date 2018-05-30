@@ -17,12 +17,17 @@
  */
 
 #include "hidchannel.h"
+#include "tcpchannel.h"
 #include "wallet.h"
 #include <string.h>
 #include <string>
 
 class wallet::channel *wallet::channel::getHIDChannel(unsigned short vendorId, unsigned short productId) {
     return new hidChannel(vendorId, productId);
+}
+
+class wallet::channel *wallet::channel::getTCPChannel(const std::string &host, unsigned short port) {
+    return new tcpChannel(host, port);
 }
 
 class wallet::channel *wallet::channel::getChannel(const std::string &channelDesc) {
@@ -49,6 +54,8 @@ class wallet::channel *wallet::channel::getChannel(const std::string &channelDes
 
     if (strcmp(channel_type_str, "HID") == 0)
         chan = new hidChannel(atoi(arg1_str), atoi(arg2_str));
+    else if (strcmp(channel_type_str, "TCP") == 0)
+        chan = new tcpChannel(arg1_str, atoi(arg2_str));
 
     free(str);
 

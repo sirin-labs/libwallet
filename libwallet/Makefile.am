@@ -6,7 +6,8 @@ libwallet_la_SOURCES = wallet.cpp \
 						 common/utils.cpp \
 						 common/rlp.cpp \
 						 channels/channel.cpp \
-						 channels/hidchannel.cpp
+						 channels/hidchannel.cpp \
+						 channels/tcpchannel.cpp
 
 libwallet_la_LIBADD = $(LIBUSB_LIBS) $(LIBHID_LIBS)
 libwallet_la_CFLAGS = $(LIBUSB_CFLAGS) $(LIBHID_CFLAGS)
