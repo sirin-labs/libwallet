@@ -44,4 +44,5 @@ AC_TYPE_UINT8_T
 AC_CONFIG_FILES([libwallet.pc])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libwallet/Makefile])
+AC_CONFIG_FILES([examples/Makefile])
 AC_OUTPUT
