@@ -12,6 +12,16 @@ AC_PROG_LN_S
 
 LT_INIT
 
+# Checks for libraries.
+
+PKG_CHECK_MODULES(LIBUSB, libusb-1.0 >= 1.0.9)
+AC_SUBST(LIBUSB_CFLAGS)
+AC_SUBST(LIBUSB_LIBS)
+
+PKG_CHECK_MODULES(LIBHID, hidapi-libusb >= 0.8.0)
+AC_SUBST(LIBHID_CFLAGS)
+AC_SUBST(LIBHID_LIBS)
+
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
