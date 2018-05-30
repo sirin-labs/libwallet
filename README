@@ -1,0 +1,10 @@
+# libwallet
+
+libwallet is a library for crypto wallet devices access from Linux, 
+Android, Mac OS X, Windows, OpenBSD/NetBSD and Solaris userspace
+It is written in C++ and licensed under the GNU
+Lesser General Public License version 2.1 or, at your option, any later
+version (see [COPYING](COPYING)).
+
+libwallet is abstracted internally in such a way that it can hopefully
+be ported to other operating systems.

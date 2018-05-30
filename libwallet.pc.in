@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libwallet
+Description: C API for crypto wallet devices access from Linux, Mac OS X, Windows, OpenBSD/NetBSD and Solaris userspace
+Version: @VERSION@
+Libs: -L${libdir}
+Libs.private: @LIBS@

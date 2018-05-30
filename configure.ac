@@ -1,0 +1,27 @@
+AC_PREREQ([2.69])
+AC_INIT([libwallet], [0.1.0], [uriy@sirinlabs.com])
+
+AC_CONFIG_MACRO_DIRS([m4])
+
+AM_INIT_AUTOMAKE([subdir-objects])
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_LN_S
+
+LT_INIT
+
+# Checks for header files.
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_CHECK_HEADER_STDBOOL
+AC_TYPE_UINT64_T
+AC_TYPE_UINT8_T
+
+# Checks for library functions.
+
+AC_CONFIG_FILES([libwallet.pc])
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([libwallet/Makefile])
+AC_OUTPUT
