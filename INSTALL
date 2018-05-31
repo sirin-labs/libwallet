@@ -1,2 +1,13 @@
+Prerequisite packages:
+1. libusb-1.0 >= 1.0.9
+2. hidapi-libusb >= 0.8.0
+3. protobuf >= 2.4.0
 
-To install libwallet on your Linux machine type: "sudo make install".
+To build and install libwallet on your Linux machine type:
+1. ./autogen.sh
+2. ./configure --prefix=/usr
+3. make
+5. sudo make install
+
+Now you can use one of the examples, to get Testnet address from TREZOR device type:
+sudo getaddress -t TREZOR -c Testnet -p "m/44'/1'/0'/0/0"
