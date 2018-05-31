@@ -582,6 +582,9 @@ int trezorDecive::processTxRequestMsg(std::vector<unsigned char> data, void *ret
 
     if (txr.details().has_request_index()) currRequestIndex = txr.details().request_index();
 
+    if (txr.has_serialized() && txr.serialized().has_serialized_tx())
+        *(std::string *)retValue += bin2hex(txr.serialized().serialized_tx());
+
     if (txr.request_type() == TXINPUT) {
         TxInputType *txInputType;
 
@@ -667,7 +670,7 @@ int trezorDecive::processTxRequestMsg(std::vector<unsigned char> data, void *ret
 
         return 1;
     } else if (txr.request_type() == TXFINISHED) {
-        *(std::string *)retValue = bin2hex(txr.serialized().serialized_tx());
+        // Nothing to do, finish sequence
     } else if (txr.request_type() == TXEXTRADATA) {
         return (-1);
     }
