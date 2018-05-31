@@ -90,11 +90,11 @@ typedef enum userActionReqType_t {
     UserActionReqType_Entropy = 7
 } userActionReqType;
 
-typedef enum txDetaiesRequestType_t {
-    TxDetaiesReqType_Input = 1,
-    TxDetaiesReqType_BinOutput = 2,
-    TxDetaiesReqType_Metadata = 3,
-} txDetaiesRequestType;
+typedef enum txDetailsRequestType_t {
+    TxDetailsReqType_Input = 1,
+    TxDetailsReqType_BinOutput = 2,
+    TxDetailsReqType_Metadata = 3,
+} txDetailsRequestType;
 
 typedef struct coin_t {
     std::string name;
@@ -141,7 +141,7 @@ class WALLETSHARED_EXPORT walletDev {
 public:
     walletDev() {
         m_userActionRequestHandler = NULL;
-        m_txDetaiesRequestHandler = NULL;
+        m_txDetailsRequestHandler = NULL;
         m_debugLevel = 0;
     }
     virtual ~walletDev() {}
@@ -180,18 +180,18 @@ public:
     std::string getResultString(void) const;
 
     int registerUserActionRequestHandler(int (*userActionRequestHandler)(userActionReqType, std::string &));
-    int registerTxDetailsRequestHandler(int (*txDetaiesRequestHandler)(txDetaiesRequestType, const std::string &,
+    int registerTxDetailsRequestHandler(int (*txDetailsRequestHandler)(txDetailsRequestType, const std::string &,
                                                                        uint32_t, void *));
 
     static class walletDev *getDevice(const std::string &devType);
 
 private:
     int (*m_userActionRequestHandler)(userActionReqType, std::string &);
-    int (*m_txDetaiesRequestHandler)(txDetaiesRequestType, const std::string &, uint32_t reqIndex, void *);
+    int (*m_txDetailsRequestHandler)(txDetailsRequestType, const std::string &, uint32_t reqIndex, void *);
 
 protected:
     int userActionRequest(userActionReqType userActReqType, std::string &retInput);
-    int txDetaiesRequest(txDetaiesRequestType txDetaiesRequestType, const std::string &hash, uint32_t reqIndex,
+    int txDetailsRequest(txDetailsRequestType txDetailsRequestType, const std::string &hash, uint32_t reqIndex,
                          void *data);
 
     channel *m_channel;

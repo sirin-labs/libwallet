@@ -38,10 +38,10 @@ int wallet::walletDev::registerUserActionRequestHandler(
     return 0;
 }
 
-int wallet::walletDev::registerTxDetailsRequestHandler(int (*txDetaiesRequestHandler)(txDetaiesRequestType,
+int wallet::walletDev::registerTxDetailsRequestHandler(int (*txDetailsRequestHandler)(txDetailsRequestType,
                                                                                       const std::string &, uint32_t,
                                                                                       void *)) {
-    m_txDetaiesRequestHandler = txDetaiesRequestHandler;
+    m_txDetailsRequestHandler = txDetailsRequestHandler;
 
     return 0;
 }
@@ -52,9 +52,9 @@ int wallet::walletDev::userActionRequest(userActionReqType userActReqType, std::
     return m_userActionRequestHandler(userActReqType, retInput);
 }
 
-int wallet::walletDev::txDetaiesRequest(txDetaiesRequestType txDetaiesReqType, const std::string &hash,
+int wallet::walletDev::txDetailsRequest(txDetailsRequestType txDetailsReqType, const std::string &hash,
                                         uint32_t reqIndex, void *data) {
-    if (!m_txDetaiesRequestHandler) return (-1);
+    if (!m_txDetailsRequestHandler) return (-1);
 
-    return m_txDetaiesRequestHandler(txDetaiesReqType, hash, reqIndex, data);
+    return m_txDetailsRequestHandler(txDetailsReqType, hash, reqIndex, data);
 }

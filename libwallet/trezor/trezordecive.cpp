@@ -603,7 +603,7 @@ int trezorDecive::processTxRequestMsg(std::vector<unsigned char> data, void *ret
         } else {
             wallet::txInput txIn;
 
-            if (txDetaiesRequest(wallet::TxDetaiesReqType_Input, bin2hex(currTxHash), currRequestIndex, &txIn) != 0)
+            if (txDetailsRequest(wallet::TxDetailsReqType_Input, bin2hex(currTxHash), currRequestIndex, &txIn) != 0)
                 return (-1);
 
             txInputType->set_script_sig(hex2bin(txIn.scriptSignature).data(), txIn.scriptSignature.length() / 2);
@@ -639,7 +639,7 @@ int trezorDecive::processTxRequestMsg(std::vector<unsigned char> data, void *ret
             txOutputBinType = transactionType->add_bin_outputs();
 
             wallet::txOutputBin txOutBin;
-            if (txDetaiesRequest(wallet::TxDetaiesReqType_BinOutput, bin2hex(currTxHash), currRequestIndex,
+            if (txDetailsRequest(wallet::TxDetailsReqType_BinOutput, bin2hex(currTxHash), currRequestIndex,
                                  &txOutBin) != 0)
                 return (-1);
 
@@ -656,7 +656,7 @@ int trezorDecive::processTxRequestMsg(std::vector<unsigned char> data, void *ret
     } else if (txr.request_type() == TXMETA) {
         wallet::txMetadata metadata;
 
-        if (txDetaiesRequest(wallet::TxDetaiesReqType_Metadata, bin2hex(currTxHash), currRequestIndex, &metadata) != 0)
+        if (txDetailsRequest(wallet::TxDetailsReqType_Metadata, bin2hex(currTxHash), currRequestIndex, &metadata) != 0)
             return (-1);
 
         transactionType->set_inputs_cnt(metadata.inputsCount);

@@ -27,47 +27,35 @@
 
 using namespace std;
 
-static int txDetailsRequestHandler(wallet::txDetaiesRequestType txDetReqType, const std::string &hash,
+static int txDetailsRequestHandler(wallet::txDetailsRequestType txDetReqType, const std::string &hash,
                                    uint32_t reqIndex, void *retData) {
     if (retData == NULL) return (-1);
 
-    if (hash == "d5f65ee80147b4bcc70b75e4bbf2d7382021b871bd8867ef8fa525ef50864882") {
-        if (txDetReqType == wallet::TxDetaiesReqType_Input) {
+    if (hash == "f7b8917c1f16b903c57c7e97169cd21cf4ec588e556f0e40491e9a1f7bbc6831") {
+        if (txDetReqType == wallet::TxDetailsReqType_Input) {
             if (reqIndex == 0) {
-                ((wallet::txInput *)retData)->scriptSignature =
-                    "483045022072ba61305fe7cb542d142b8f3299a7b10f9ea61f6ffaab5d"
-                    "ca8142601869d53c0221009a8027ed79eb3b9bc13577ac285326932343"
-                    "4558528c6b6a7e542be46e7e9a820141047a2d177c0f3626fc68c53610"
-                    "b0270fa6156181f46586c679ba6a88b34c6f4874686390b4d92e5769fb"
-                    "b89c8050b984f4ec0b257a0e5c4ff8bd3b035a51709503";
-                ((wallet::txInput *)retData)->prevHash = "c16a03f1cf8f99f6b5297ab614586cacec784c2d259af245909dedb0e3"
-                                                         "9eddcf";
+                ((wallet::txInput *)retData)->scriptSignature = "1600145d45fe25b095cf22d9345ed4903049cd4c638df4";
+                ((wallet::txInput *)retData)->prevHash =
+                    "523e2014c436ba7b753db02f7e750fcc05ac3ef6ae5af9e4ff6fabcde1b9ebfd";
                 ((wallet::txInput *)retData)->prevIndex = 1;
-                ((wallet::txInput *)retData)->scriptType = wallet::InputScriptType_None;
+                ((wallet::txInput *)retData)->scriptType = wallet::InputScriptType_SpendMultisig;
+            } else {
+                return (-1);
+            }
+        } else if (txDetReqType == wallet::TxDetailsReqType_BinOutput) {
+            if (reqIndex == 0) {
+                ((wallet::txOutputBin *)retData)->scriptPubkey = "76a9140913215f8446682e773cf8319052ba0de7a92f7c88ac";
+                ((wallet::txOutputBin *)retData)->amount = 55000000;
             } else if (reqIndex == 1) {
-                ((wallet::txInput *)retData)->scriptSignature =
-                    "48304502200fd63adc8f6cb34359dc6cca9e5458d7ea50376cbd0a7451"
-                    "4880735e6d1b8a4c0221008b6ead7fe5fbdab7319d6dfede3a0bc8e2a7"
-                    "c5b5a9301636d1de4aa31a3ee9b101410486ad608470d796236b003635"
-                    "718dfc07c0cac0cfc3bfc3079e4f491b0426f0676e6643a39198e8e7bd"
-                    "affb94f4b49ea21baa107ec2e237368872836073668214";
-                ((wallet::txInput *)retData)->prevHash = "1ae39a2f8d59670c8fc61179148a8e61e039d0d9e8ab08610cb69b4a19"
-                                                         "453eaf";
-                ((wallet::txInput *)retData)->prevIndex = 1;
-                ((wallet::txInput *)retData)->scriptType = wallet::InputScriptType_None;
+                ((wallet::txOutputBin *)retData)->scriptPubkey = "a914a3fde1a11dc7b562832bfaa044cfea41917fe3fd87";
+                ((wallet::txOutputBin *)retData)->amount = 69621837041;
             } else {
                 return (-1);
             }
-        } else if (txDetReqType == wallet::TxDetaiesReqType_BinOutput) {
-            if (reqIndex == 0) {
-                ((wallet::txOutputBin *)retData)->scriptPubkey = "76a91424a56db43cf6f2b02e838ea493f95d8d6047423188ac";
-                ((wallet::txOutputBin *)retData)->amount = 390000;
-            } else {
-                return (-1);
-            }
-        } else if (txDetReqType == wallet::TxDetaiesReqType_Metadata) {
-            ((wallet::txMetadata *)retData)->inputsCount = 2;
-            ((wallet::txMetadata *)retData)->outputsCount = 1;
+        } else if (txDetReqType == wallet::TxDetailsReqType_Metadata) {
+
+            ((wallet::txMetadata *)retData)->inputsCount = 1;
+            ((wallet::txMetadata *)retData)->outputsCount = 2;
             ((wallet::txMetadata *)retData)->version = 1;
             ((wallet::txMetadata *)retData)->lockTime = 0;
             ((wallet::txMetadata *)retData)->extraDataLen = 0;
@@ -83,25 +71,31 @@ static int txDetailsRequestHandler(wallet::txDetaiesRequestType txDetReqType, co
 
 static int SignTx(wallet::walletDev *wallet) {
     std::string signedTx;
-    wallet::txOutput txOut;
+    wallet::txOutput txOut1;
+    wallet::txOutput txOut2;
     wallet::txInput txIn;
     std::vector<wallet::txOutput> outputs;
     std::vector<wallet::txInput> inputs;
 
-    txOut.address = "1MJ2tj2ThBE62zXbBYA5ZaN3fdve5CPAz1";
-    txOut.amount = 390000 - 10000;
-    txOut.scriptType = wallet::OutputScriptType_PayToAddress;
+    txOut1.address = "mtJwQksCqsc1WpFoKvSFMRY27VDQEVLnym";
+    txOut1.amount = 1000000;
+    txOut1.scriptType = wallet::OutputScriptType_PayToAddress;
 
-    txIn.derivationPath = "0";
-    txIn.prevHash = "d5f65ee80147b4bcc70b75e4bbf2d7382021b871bd8867ef8fa525ef50864882";
+    txOut2.address = "mk8wwL3KWFvxiNZK8XD6781kNuJmF4HHtA";
+    txOut2.amount = 53990000;
+    txOut2.scriptType = wallet::OutputScriptType_PayToAddress;
+
+    txIn.derivationPath = "m/44'/1'/0'/0/0";
+    txIn.prevHash = "f7b8917c1f16b903c57c7e97169cd21cf4ec588e556f0e40491e9a1f7bbc6831";
     txIn.prevIndex = 0;
 
-    outputs.insert(outputs.begin(), txOut);
+    outputs.insert(outputs.begin(), txOut1);
+    outputs.insert(outputs.begin() + 1, txOut2);
     inputs.insert(inputs.begin(), txIn);
 
     printf("Sign transaction ...\n");
 
-    if (wallet->signTx(signedTx, "Bitcoin", inputs, outputs, 1, 0, false) != 0) {
+    if (wallet->signTx(signedTx, "Testnet", inputs, outputs, 1, 0, false) != 0) {
         printf("Sign transaction failed: %s\n", wallet->getResultString().c_str());
         return 1;
     }
@@ -118,8 +112,8 @@ int main(int argc, char **argv) {
     unsigned short debug_level = 0;
     bool show_help = false;
 
-    // seed('alcohol woman abuse must during monitor noble actual mixed trade
-    // anger aisle')
+    // seed('skin clarify festival goddess picture tourist brain marble police wing derive tool churn bridge iron judge
+    // session video jump rate neglect club glad blanket')
 
     int j;
     size_t arglen;
