@@ -2,7 +2,10 @@ AM_CXXFLAGS = -g -std=c++11 -Wall -fPIC
 AM_CPPFLAGS = -I$(top_srcdir)/libwallet
 LDADD = ../libwallet/libwallet.la
 
-bin_PROGRAMS = signtx_bitcoin_test
+bin_PROGRAMS = signtx_bitcoin_test signtx_testnet_test
 
 signtx_bitcoin_test_SOURCES = common.cpp signtx_bitcoin_test.cpp
 signtx_bitcoin_test_CFLAGS = $(AM_CFLAGS)
+
+signtx_testnet_test_SOURCES = common.cpp signtx_testnet_test.cpp
+signtx_testnet_test_CFLAGS = $(AM_CFLAGS)
