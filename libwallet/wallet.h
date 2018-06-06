@@ -165,6 +165,11 @@ public:
                              const std::string &coinName = "Bitcoin", const std::string &derivationPath = "",
                              inputScriptType scriptType = InputScriptType_None, bool display = false,
                              bool usePassphrase = false) = 0;
+    virtual int getEthAddress(std::string &retAddress, const std::string &derivationPath = "", bool display = false,
+                              bool usePassphrase = false) = 0;
+    virtual int getEthAddresses(std::list<std::string> &retAddresses, unsigned int addressesNum = 1,
+                                const std::string &derivationPath = "", bool display = false,
+                                bool usePassphrase = false) = 0;
     virtual int wipe(void) = 0;
     virtual int changePin(void) = 0;
     virtual int recovery(const std::string &, bool pinProtection, bool passphraseProtection, int wordCount) = 0;

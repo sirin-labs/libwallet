@@ -43,6 +43,9 @@ public:
     int getAddresses(std::list<std::string> &retAddresses, unsigned int addressesNum, const std::string &coinName,
                      const std::string &derivationPath, wallet::inputScriptType scriptType, bool display,
                      bool usePassphrase);
+    int getEthAddress(std::string &retAddress, const std::string &derivationPath, bool display, bool usePassphrase);
+    int getEthAddresses(std::list<std::string> &retAddresses, unsigned int addressesNum,
+                        const std::string &derivationPath, bool display, bool usePassphrase);
 
     int wipe(void);
     int changePin(void);

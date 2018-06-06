@@ -169,32 +169,64 @@ int trezorDecive::getAddresses(std::list<std::string> &retAddresses, unsigned in
             if (n.size()) n[n.size() - 1] += addrIdx;
         }
 
-        if (coinName == "Ethereum") {
-            EthereumGetAddress ega;
+        GetAddress ga;
 
-            for (size_t i = 0; i < n.size() && i < 10; i++)
-                ega.add_address_n(n[i]);
+        for (size_t i = 0; i < n.size() && i < 10; i++)
+            ga.add_address_n(n[i]);
 
-            ega.set_show_display(display);
+        ga.set_show_display(display);
+        ga.set_coin_name(coinName.c_str(), coinName.length());
 
-            if (sendMsg(MessageType_EthereumGetAddress, ega) != 0) return -1;
+        if (scriptType != wallet::InputScriptType_None) ga.set_script_type((InputScriptType)scriptType);
 
-            if (processCommand(&address) != 0) return 0;
-        } else {
-            GetAddress ga;
+        if (sendMsg(MessageType_GetAddress, ga) != 0) return -1;
 
-            for (size_t i = 0; i < n.size() && i < 10; i++)
-                ga.add_address_n(n[i]);
+        if (processCommand(&address) != 0) return 0;
 
-            ga.set_show_display(display);
-            ga.set_coin_name(coinName.c_str(), coinName.length());
+        retAddresses.push_back(address);
+        addrIdx++;
+    }
 
-            if (scriptType != wallet::InputScriptType_None) ga.set_script_type((InputScriptType)scriptType);
+    return 0;
+}
 
-            if (sendMsg(MessageType_GetAddress, ga) != 0) return -1;
+int trezorDecive::getEthAddress(std::string &retAddress, const std::string &derivationPath, bool display,
+                                bool usePassphrase) {
+    std::list<std::string> retAddresses;
 
-            if (processCommand(&address) != 0) return 0;
+    (void)usePassphrase;
+
+    if (getEthAddresses(retAddresses, 1, derivationPath, display, usePassphrase) != 0) return (-1);
+
+    retAddress = retAddresses.front();
+
+    return 0;
+}
+
+int trezorDecive::getEthAddresses(std::list<std::string> &retAddresses, unsigned int addressesNum,
+                                  const std::string &derivationPath, bool display, bool usePassphrase) {
+    std::vector<uint32_t> n;
+    std::string address;
+    unsigned int addrIdx = 0;
+
+    (void)usePassphrase;
+
+    while (addrIdx < addressesNum) {
+        if (!derivationPath.empty()) {
+            n = bip32path2arr(derivationPath);
+            if (n.size()) n[n.size() - 1] += addrIdx;
         }
+
+        EthereumGetAddress ega;
+
+        for (size_t i = 0; i < n.size() && i < 10; i++)
+            ega.add_address_n(n[i]);
+
+        ega.set_show_display(display);
+
+        if (sendMsg(MessageType_EthereumGetAddress, ega) != 0) return -1;
+
+        if (processCommand(&address) != 0) return 0;
 
         retAddresses.push_back(address);
         addrIdx++;
