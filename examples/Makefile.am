@@ -2,7 +2,7 @@ AM_CXXFLAGS = -g -std=c++11 -Wall -fPIC
 AM_CPPFLAGS = -I$(top_srcdir)/libwallet
 LDADD = ../libwallet/libwallet.la
 
-bin_PROGRAMS = setupdev wipedev getaddress signethtx getinfo
+bin_PROGRAMS = setupdev wipedev getaddress getethaddress signethtx getinfo
 
 setupdev_SOURCES = common.cpp setupdev.cpp
 setupdev_CFLAGS = $(AM_CFLAGS)
@@ -12,6 +12,9 @@ wipedev_CFLAGS = $(AM_CFLAGS)
 
 getaddress_SOURCES = common.cpp getaddress.cpp
 getaddress_CFLAGS = $(AM_CFLAGS)
+
+getethaddress_SOURCES = common.cpp getethaddress.cpp
+getethaddress_CFLAGS = $(AM_CFLAGS)
 
 signethtx_SOURCES = common.cpp signethtx.cpp
 signethtx_CFLAGS = $(AM_CFLAGS)
